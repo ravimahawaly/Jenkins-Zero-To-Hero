@@ -1,0 +1,15 @@
+# If you want to run this app in a docker container without CICD, then this Dockerfile is going to be run to build a image.
+# The file with name Dockerfile is ony used for the jenkins CICD purpose only.
+FROM python:3.8-slim
+
+run apt-get update && apt-get install -y python3-distutils build-essential
+
+WORKDIR /app
+
+RUN pip install django==3.2
+
+COPY . .
+
+RUN python manage.py migrate
+EXPOSE 8000
+CMD ["python","manage.py","runserver","0.0.0.0:8000"]
